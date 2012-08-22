@@ -60,8 +60,6 @@ application:
 
 For a complete, working example, refer to the [login example](https://github.com/jeremybenaim/passport-500px/tree/master/examples/login).
 
-[![Build Status](https://secure.travis-ci.org/jaredhanson/passport-500px.png)](http://travis-ci.org/jeremybenaim/passport-500px)
-
 ## Credits
 
   - [Jeremy Benaim](http://github.com/jeremybenaim)
