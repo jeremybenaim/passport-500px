@@ -1,0 +1,4 @@
+*.md
+.DS_Store
+.git*
+examples/
