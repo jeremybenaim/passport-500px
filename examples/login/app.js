@@ -3,8 +3,8 @@ var express = require('express')
   , util = require('util')
   , _500pxStrategy = require('passport-500px').Strategy;
 
-var _5OOpx_APP_ID = "--insert-500px-key-here--"
-  , _5OOpx_APP_SECRET = "--insert-500px-key-here--";
+var _5OOpx_APP_ID = "--insert-500px-consumer-key-here--"
+  , _5OOpx_APP_SECRET = "--insert-500px-consumer-secret-here--";
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -29,7 +29,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new _500pxStrategy({
     consumerKey: _5OOpx_APP_ID,
     consumerSecret: _5OOpx_APP_SECRET,
-    callbackURL: "http://127.0.0.1:3000/auth/500px/callback"
+    callbackURL: "http://localhost:3000/auth/500px/callback"
   },
   function(token, tokenSecret, profile, done) {
     // asynchronous verification, for effect...

@@ -25,7 +25,7 @@ specifying a consumer key, consumer secret, and callback URL.
     passport.use(new _500pxStrategy({
         consumerKey: _500px_OAUTH_KEY,
         consumerSecret: _500px_OAUTH_SECRET,
-        callbackURL: "http://127.0.0.1:3000/auth/500px/callback"
+        callbackURL: "http://localhost:3000/auth/500px/callback"
       },
       function(token, tokenSecret, profile, done) {
         User.findOrCreate({ '500pxId': profile.id }, function (err, user) {
