@@ -1,8 +1,8 @@
 {
   "name": "passport-500px",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "500px authentication strategy for Passport.",
-  "author": { "name": "Jeremy Benail", "email": "jeremybenaim@gmail.com", "url": "http://jeremybenaim.com/" },
+  "author": { "name": "Jeremy Benaim", "email": "jeremybenaim@gmail.com", "url": "http://jeremybenaim.com/" },
   "repository": {
     "type": "git",
     "url": "git://github.com/jeremybenaim/passport-500px.git"
@@ -13,12 +13,12 @@
   "main": "./lib/passport-500px",
   "dependencies": {
     "pkginfo": "0.2.x",
-    "passport-oauth": "0.1.x"
+    "passport-oauth": "^1.0.0"
   },
   "engines": { "node": ">= 0.4.0" },
   "licenses": [ {
     "type": "MIT",
-    "url": "http://www.opensource.org/licenses/MIT" 
+    "url": "http://www.opensource.org/licenses/MIT"
   } ],
   "keywords": ["passport", "500px", "auth", "authn", "authentication", "identity"]
 }

@@ -1,10 +1,15 @@
 var express = require('express')
   , passport = require('passport')
   , util = require('util')
-  , _500pxStrategy = require('passport-500px').Strategy;
+  , _500pxStrategy = require('passport-500px').Strategy
+  , logger = require('morgan')
+  , session = require('express-session')
+  , bodyParser = require('body-parser')
+  , cookieParser = require('cookie-parser')
+  , methodOverride = require('method-override');
 
-var _5OOpx_APP_ID = "--insert-500px-consumer-key-here--"
-  , _5OOpx_APP_SECRET = "--insert-500px-consumer-secret-here--";
+var _5OOPX_CONSUMER_KEY = '--insert-500px-consumer-key-here--'
+  , _5OOPX_CONSUMER_SECRET = '--insert-500px-consumer-secret-here--';
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -21,20 +26,19 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 
-
 // Use the _500pxStrategy within Passport.
 //   Strategies in passport require a `verify` function, which accept
 //   credentials (in this case, a token, tokenSecret, and 500px profile), and
 //   invoke a callback with a user object.
 passport.use(new _500pxStrategy({
-    consumerKey: _5OOpx_APP_ID,
-    consumerSecret: _5OOpx_APP_SECRET,
-    callbackURL: "http://localhost:3000/auth/500px/callback"
+    consumerKey: _5OOPX_CONSUMER_KEY,
+    consumerSecret: _5OOPX_CONSUMER_SECRET,
+    callbackURL: 'http://localhost:3000/auth/500px/callback/'
   },
   function(token, tokenSecret, profile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
-      
+
       // To keep the example simple, the user's 500px profile is returned to
       // represent the logged-in user.  In a typical application, you would want
       // to associate the 500px account with a user record in your database,
@@ -44,27 +48,28 @@ passport.use(new _500pxStrategy({
   }
 ));
 
-
-
-
-var app = express.createServer();
+var app = express();
 
 // configure Express
-app.configure(function() {
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'ejs');
-  app.use(express.logger());
-  app.use(express.cookieParser());
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.session({ secret: 'keyboard cat' }));
-  // Initialize Passport!  Also use passport.session() middleware, to support
-  // persistent login sessions (recommended).
-  app.use(passport.initialize());
-  app.use(passport.session());
-  app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
-});
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.use(logger('dev'));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+app.use(methodOverride());
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true
+}));
+// Initialize Passport!  Also use passport.session() middleware, to support
+// persistent login sessions (recommended).
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(__dirname + '/public'));
 
 
 app.get('/', function(req, res){
@@ -96,7 +101,7 @@ app.get('/auth/500px',
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get('/auth/500px/callback', 
+app.get('/auth/500px/callback',
   passport.authenticate('500px', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
@@ -108,7 +113,6 @@ app.get('/logout', function(req, res){
 });
 
 app.listen(3000);
-
 
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
